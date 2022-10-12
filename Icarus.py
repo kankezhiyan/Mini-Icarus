@@ -37,19 +37,19 @@ class PetIcarus(QWidget):
         self.check_icon = os.path.join('resource/vision/pic/rcd-check.png')  # 选中图标
 
         self.quit_pet = QAction('退出', self)  # 退出
-        self.show_if = QAction(QIcon(self.check_icon), '显示', self)  # 显示控制
-        self.music_if = QAction(QIcon(self.check_icon), '声音', self)  # 声音控制
-        self.text_if = QAction(QIcon(self.check_icon), '发言', self)  # 文本控制
-        self.top_if = QAction(QIcon(self.check_icon), '置顶', self)  # 置顶控制
-        self.about = QAction('关于', self)  # 详细信息
+        self.show_set = QAction(QIcon(self.check_icon), '显示', self)  # 显示控制
+        self.music_set = QAction(QIcon(self.check_icon), '声音', self)  # 声音控制
+        self.text_set = QAction(QIcon(self.check_icon), '发言', self)  # 文本控制
+        self.top_set = QAction(QIcon(self.check_icon), '置顶', self)  # 置顶控制
+        self.about_set = QAction('关于', self)  # 详细信息
 
         # 菜单响应
         self.quit_pet.triggered.connect(self.quit)
-        self.show_if.triggered.connect(self.show_if)
-        self.music_if.triggered.connect(self.music_if)
-        self.text_if.triggered.connect(self.text_if)
-        self.top_if.triggered.connect(self.top_if)
-        self.about.triggered.connect(self.about)
+        self.show_set.triggered.connect(self.show_if)
+        self.music_set.triggered.connect(self.music_if)
+        self.text_set.triggered.connect(self.text_if)
+        self.top_set.triggered.connect(self.top_if)
+        self.about_set.triggered.connect(self.about)
 
         # 状态判定值
         self.show_check = self.music_check = self.text_check = self.top_check = 1
@@ -59,11 +59,11 @@ class PetIcarus(QWidget):
 
         # 添加菜单
         self.tray_menu.addAction(self.quit_pet)
-        self.tray_menu.addAction(self.show_if)
-        self.tray_menu.addAction(self.music_if)
-        self.tray_menu.addAction(self.text_if)
-        self.tray_menu.addAction(self.top_if)
-        self.tray_menu.addAction(self.about)
+        self.tray_menu.addAction(self.show_set)
+        self.tray_menu.addAction(self.music_set)
+        self.tray_menu.addAction(self.text_set)
+        self.tray_menu.addAction(self.top_set)
+        self.tray_menu.addAction(self.about_set)
 
         tray_icon = QSystemTrayIcon(self)  # 添加托盘图标
         tray_icon.setIcon(QIcon(icons))  # 托盘化图标
@@ -241,15 +241,15 @@ class PetIcarus(QWidget):
     def show_if(self):
         if self.show_check:
             self.setWindowOpacity(0)
-            self.show_if.setIcon(QIcon())
-            self.music_if.setDisabled(True)
-            self.text_if.setDisabled(True)
+            self.show_set.setIcon(QIcon())
+            self.music_set.setDisabled(True)
+            self.text_set.setDisabled(True)
             self.show_check = 0
         else:
             self.setWindowOpacity(1)
-            self.show_if.setIcon(QIcon(self.check_icon))
-            self.music_if.setDisabled(False)
-            self.text_if.setDisabled(False)
+            self.show_set.setIcon(QIcon(self.check_icon))
+            self.music_set.setDisabled(False)
+            self.text_set.setDisabled(False)
             self.show_check = 1
 
     def music_if(self):
@@ -259,11 +259,11 @@ class PetIcarus(QWidget):
     def text_if(self):
         if self.text_check:
             self.sentences.setVisible(False)
-            self.text_if.setIcon(QIcon())
+            self.text_set.setIcon(QIcon())
             self.text_check = 0
         else:
             self.sentences.setVisible(True)
-            self.text_if.setIcon(QIcon(self.check_icon))
+            self.text_set.setIcon(QIcon(self.check_icon))
             self.text_check = 1
 
     def about(self):
@@ -273,11 +273,11 @@ class PetIcarus(QWidget):
     def top_if(self):
         if self.top_check:
             self.window_widget()
-            self.top_if.setIcon(QIcon())
+            self.top_set.setIcon(QIcon())
             self.top_check = 0
         else:
             self.window_init()
-            self.top_if.setIcon(QIcon(self.check_icon))
+            self.top_set.setIcon(QIcon(self.check_icon))
             self.top_check = 1
         self.show()
 
