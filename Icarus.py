@@ -160,13 +160,14 @@ class PetIcarus(QWidget):
 
     # 鼠标进入动作
     def action_hover(self):
-        self.main_timer.stop()  # 结束待机状态
-        self.action_timer.stop()  # 结束小动作状态
+        if self.main_mod != 1:
+            self.main_timer.stop()  # 结束待机状态
+            self.action_timer.stop()  # 结束小动作状态
 
-        self.movie = QMovie("resource/vision/interact/hover.gif")
-        self.movie.setScaledSize(QSize(200, 200))  # 动画尺寸
-        self.pet_area.setMovie(self.movie)  # 加载动画
-        self.movie.start()  # 播放动画
+            self.movie = QMovie("resource/vision/interact/hover.gif")  # 加载交互动画
+            self.movie.setScaledSize(QSize(200, 200))  # 动画尺寸
+            self.pet_area.setMovie(self.movie)  # 加载动画
+            self.movie.start()  # 播放动画
 
     # 点击动作
     def action_click(self):
@@ -344,7 +345,7 @@ class PetIcarus(QWidget):
 
     # 鼠标离开事件
     def leaveEvent(self, event):
-        if not self.main_mod:
+        if self.main_mod != 1:
             self.action_wait()  # 回到待机状态
 
     # 鼠标右键事件
