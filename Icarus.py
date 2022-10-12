@@ -158,6 +158,16 @@ class PetIcarus(QWidget):
 
         self.main_mod = 2  # 小动作状态
 
+    # 鼠标进入动作
+    def ActionHover(self):
+        self.main_timer.stop()  # 结束待机状态
+        self.action_timer.stop()  # 结束小动作状态
+
+        self.movie = QMovie("resource/vision/interact/hover.gif")
+        self.movie.setScaledSize(QSize(200, 200))  # 动画尺寸
+        self.pet_area.setMovie(self.movie)  # 加载动画
+        self.movie.start()  # 播放动画
+
     # 点击动作
     def ActionClick(self):
         self.main_timer.stop()  # 结束待机状态
@@ -314,8 +324,8 @@ class PetIcarus(QWidget):
                         self.movie.setScaledSize(QSize(200, 200))  # 动画尺寸
                         self.pet_area.setMovie(self.movie)  # 加载动画
                         self.movie.start()  # 播放动画
-                        self.left_mod = 1  # 开启右飞模式
-                        self.right_mod = 0  # 关闭左飞模式
+                        self.left_mod = 1  # 开启左飞模式
+                        self.right_mod = 0  # 关闭右飞模式
             event.accept()
 
     # 鼠标释放事件
@@ -329,10 +339,7 @@ class PetIcarus(QWidget):
 
     # 鼠标进入事件
     def enterEvent(self, event):
-        self.movie = QMovie("resource/vision/interact/hover.gif")
-        self.movie.setScaledSize(QSize(200, 200))  # 动画尺寸
-        self.pet_area.setMovie(self.movie)  # 加载动画
-        self.movie.start()  # 播放动画
+        self.ActionHover()  # 开始进入状态
         self.setCursor(QCursor(Qt.OpenHandCursor))  # 手形鼠标
 
     # 鼠标离开事件
