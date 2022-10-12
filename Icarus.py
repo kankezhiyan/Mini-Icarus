@@ -235,8 +235,9 @@ class PetIcarus(QWidget):
 
     # 退出程序
     def quit(self):
-        self.close()
-        sys.exit()
+        self.tray_menu.deleteLater()  # 回收托盘图标
+        self.close()  # 关闭窗体
+        sys.exit()  # 结束程序
 
     # 显示控制
     def show_if(self):
