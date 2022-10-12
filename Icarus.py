@@ -12,27 +12,27 @@ from PyQt5.QtWidgets import *
 class PetIcarus(QWidget):
     def __init__(self, parent=None):
         super(PetIcarus, self).__init__(parent)
-        self.WindowInit()  # 初始化窗体
-        self.PallInit()  # 初始化小托盘
-        self.IcarusInit()  # 初始化实体
-        self.ActionSet()  # 初始化欢迎
+        self.window_init()  # 初始化窗体
+        self.pall_init()  # 初始化小托盘
+        self.icarus_init()  # 初始化实体
+        self.action_set()  # 初始化欢迎
 
     # 窗体初始化参数
-    def WindowInit(self):
+    def window_init(self):
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SubWindow)  # 无框 | 置顶 | 子集
         self.setAutoFillBackground(False)  # 背景透明
         self.setAttribute(Qt.WA_TranslucentBackground, True)  # 窗口透明
         self.repaint()  # 刷新并重载
 
     # 非置顶窗口
-    def WindowWidget(self):
+    def window_widget(self):
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Widget | Qt.SubWindow)  # 无框 | 标准 | 子集
         self.setAutoFillBackground(False)  # 背景透明
         self.setAttribute(Qt.WA_TranslucentBackground, True)  # 窗口透明
         self.repaint()  # 刷新并重载
 
     # 托盘化设置初始化
-    def PallInit(self):
+    def pall_init(self):
         icons = os.path.join('resource/vision/pic/Icuras.png')  # 托盘图标
         self.check_icon = os.path.join('resource/vision/pic/rcd-check.png')  # 选中图标
 
@@ -44,12 +44,12 @@ class PetIcarus(QWidget):
         self.about = QAction('关于', self)  # 详细信息
 
         # 菜单响应
-        self.quit_pet.triggered.connect(self.Quit)
-        self.show_if.triggered.connect(self.ShowIf)
-        self.music_if.triggered.connect(self.MusicIf)
-        self.text_if.triggered.connect(self.TextIf)
-        self.top_if.triggered.connect(self.TopIf)
-        self.about.triggered.connect(self.About)
+        self.quit_pet.triggered.connect(self.quit)
+        self.show_if.triggered.connect(self.show_if)
+        self.music_if.triggered.connect(self.music_if)
+        self.text_if.triggered.connect(self.text_if)
+        self.top_if.triggered.connect(self.top_if)
+        self.about.triggered.connect(self.about)
 
         # 状态判定值
         self.show_check = self.music_check = self.text_check = self.top_check = 1
@@ -71,7 +71,7 @@ class PetIcarus(QWidget):
         tray_icon.show()  # 托盘展示
 
     # 实体初始化
-    def IcarusInit(self):
+    def icarus_init(self):
         self.sentences = QLabel(self)  # 文本框定义
         self.sentences.setGeometry(0, 0, 200, 50)  # 文本框尺寸
         self.sentences.setStyleSheet("font-size:15px;font-family:微软雅黑;color:white;")  # 文本框样式
@@ -82,7 +82,7 @@ class PetIcarus(QWidget):
         self.pet_area.setAlignment(Qt.AlignCenter)  # 内容居中
 
         self.resize(200, 300)  # 定义窗体尺寸
-        self.PositionInit()  # 定义位置
+        self.position_init()  # 定义位置
         self.show()  # 展示
 
         self.animate = []  # 存放动作
@@ -95,23 +95,23 @@ class PetIcarus(QWidget):
             self.dialog = text.split("\n")  # 换行存放
 
     # 实体初始行为
-    def ActionSet(self):
+    def action_set(self):
         self.first_timer = QTimer()  # 创建开屏动画定时器
-        self.first_timer.timeout.connect(self.ActionSwitch)  # 开屏结束
-        self.first_timer.timeout.connect(self.TalkSwtich)  # 欢迎结束
+        self.first_timer.timeout.connect(self.action_switch)  # 开屏结束
+        self.first_timer.timeout.connect(self.talk_switch)  # 欢迎结束
         self.first_timer.start(5000)  # 切换计时
 
         self.movie = QMovie("resource/vision/interact/welcome.gif")  # 开屏动画
         self.movie.setScaledSize(QSize(200, 200))  # 动画尺寸
         self.pet_area.setMovie(self.movie)  # 加载动画
         self.movie.start()  # 播放动画
-        self.Welcome()  # 欢迎语录
+        self.welcome()  # 欢迎语录
 
         self.main_mod = 1  # 开屏状态设置
         self.talk_mod = 1  # 欢迎状态设置
 
     # 开场白
-    def Welcome(self):
+    def welcome(self):
         now_hour = time.localtime().tm_hour
         master = '主脑的打工仔~'
         if 1 <= now_hour < 3:
@@ -134,8 +134,8 @@ class PetIcarus(QWidget):
             self.sentences.setText('深夜好，' + master + '')
 
     # 实体待机行为
-    def ActionWait(self):
-        self.main_timer.timeout.connect(self.ActionSwitch)  # 待机结束执行
+    def action_wait(self):
+        self.main_timer.timeout.connect(self.action_switch)  # 待机结束执行
         self.main_timer.start(5000)  # 待机时长
 
         self.movie = QMovie("resource/vision/interact/state.gif")  # 开屏动画
@@ -146,9 +146,9 @@ class PetIcarus(QWidget):
         self.main_mod = 0  # 待机状态设置
 
     # 中场小动作
-    def ActionPlay(self):
+    def action_play(self):
         self.main_timer.stop()  # 结束待机状态
-        self.action_timer.timeout.connect(self.ActionSwitch)  # 小动作结束执行
+        self.action_timer.timeout.connect(self.action_switch)  # 小动作结束执行
         self.action_timer.start(5000)  # 小动作时长
 
         self.movie = QMovie(random.choice(self.animate))  # 随机加载动画
@@ -159,7 +159,7 @@ class PetIcarus(QWidget):
         self.main_mod = 2  # 小动作状态
 
     # 鼠标进入动作
-    def ActionHover(self):
+    def action_hover(self):
         self.main_timer.stop()  # 结束待机状态
         self.action_timer.stop()  # 结束小动作状态
 
@@ -169,7 +169,7 @@ class PetIcarus(QWidget):
         self.movie.start()  # 播放动画
 
     # 点击动作
-    def ActionClick(self):
+    def action_click(self):
         self.main_timer.stop()  # 结束待机状态
         self.action_timer.stop()  # 结束小动作状态
 
@@ -181,21 +181,21 @@ class PetIcarus(QWidget):
         self.left_mod = self.right_mod = 0
 
     # 动作切换
-    def ActionSwitch(self):
+    def action_switch(self):
         if not self.main_mod:  # 待机状态判定
-            self.ActionPlay()  # 加载小动作
+            self.action_play()  # 加载小动作
         elif self.main_mod:  # 开屏状态判定
             self.first_timer.stop()  # 结束开屏状态
             self.main_timer = QTimer()  # 创建主定时器
             self.action_timer = QTimer()  # 创建行为定时器
-            self.ActionWait()  # 待机画面
+            self.action_wait()  # 待机画面
         elif self.main_mod == 2:  # 小动作状态判定
             self.action_timer.stop()  # 结束小动作
-            self.ActionWait()  # 待机画面
+            self.action_wait()  # 待机画面
 
     # 待机沉默
-    def TalkWait(self):
-        self.quilt_timer.timeout.connect(self.TalkSwtich)  # 定时执行
+    def talk_wait(self):
+        self.quilt_timer.timeout.connect(self.talk_switch)  # 定时执行
         self.quilt_timer.start(int(random.uniform(1.2, 1.8) * 1000))  # 沉默计时
 
         self.sentences.setText('')  # 沉默
@@ -203,9 +203,9 @@ class PetIcarus(QWidget):
         self.talk_mod = 0  # 沉默状态设置
 
     # 待机发言
-    def TalkPlay(self):
+    def talk_play(self):
         self.quilt_timer.stop()  # 结束沉默状态
-        self.talk_timer.timeout.connect(self.TalkSwtich)  # 骚话结束执行
+        self.talk_timer.timeout.connect(self.talk_switch)  # 骚话结束执行
         self.talk_timer.start(5000)  # 骚话计时
 
         self.sentences.setText(random.choice(self.dialog))  # 随机加载骚话
@@ -213,32 +213,32 @@ class PetIcarus(QWidget):
         self.talk_mod = 2  # 骚话状态设置
 
     # 点击发言
-    def TalkClick(self):
+    def talk_click(self):
         self.quilt_timer.stop()  # 结束沉默状态
         self.talk_timer.stop()  # 结束骚话状态
 
         self.sentences.setText('低空飞行')
 
     # 发言切换
-    def TalkSwtich(self):
+    def talk_switch(self):
         if not self.talk_mod:  # 沉默状态判定
-            self.TalkPlay()
+            self.talk_play()
             # self.sentences.adjustSize()
         elif self.talk_mod:  # 欢迎状态判定
             self.quilt_timer = QTimer()  # 创建沉默计时器
             self.talk_timer = QTimer()  # 创建骚话计时器
-            self.TalkWait()  # 待机沉默
+            self.talk_wait()  # 待机沉默
         elif self.talk_mod == 2:  # 骚话判定
             self.talk_timer.stop()  # 结束骚话
-            self.TalkWait()  # 待机沉默
+            self.talk_wait()  # 待机沉默
 
     # 退出程序
-    def Quit(self):
+    def quit(self):
         self.close()
         sys.exit()
 
     # 显示控制
-    def ShowIf(self):
+    def show_if(self):
         if self.show_check:
             self.setWindowOpacity(0)
             self.show_if.setIcon(QIcon())
@@ -252,11 +252,11 @@ class PetIcarus(QWidget):
             self.text_if.setDisabled(False)
             self.show_check = 1
 
-    def MusicIf(self):
+    def music_if(self):
         pass
 
     # 文本控制
-    def TextIf(self):
+    def text_if(self):
         if self.text_check:
             self.sentences.setVisible(False)
             self.text_if.setIcon(QIcon())
@@ -266,37 +266,37 @@ class PetIcarus(QWidget):
             self.text_if.setIcon(QIcon(self.check_icon))
             self.text_check = 1
 
-    def About(self):
-        self.MessageBox('作者', '看客之眼')
+    def about(self):
+        self.message_box('作者', '看客之眼')
 
     # 置顶控制
-    def TopIf(self):
+    def top_if(self):
         if self.top_check:
-            self.WindowWidget()
+            self.window_widget()
             self.top_if.setIcon(QIcon())
             self.top_check = 0
         else:
-            self.WindowInit()
+            self.window_init()
             self.top_if.setIcon(QIcon(self.check_icon))
             self.top_check = 1
         self.show()
 
     # 初始位置
-    def PositionInit(self):
+    def position_init(self):
         screen_geo = QDesktopWidget().screenGeometry()  # 获取屏幕几何
         x_pos = (screen_geo.width() - 220)  # 设置X轴
         y_pos = (screen_geo.height() - 320)  # 设置Y轴
         self.move(int(x_pos), int(y_pos))  # 定位生成
 
-    def MessageBox(self, title, message):
+    def message_box(self, title, message):
         QMessageBox.about(self, title, message)
 
     # 鼠标左键事件
     def mousePressEvent(self, event):
         if self.main_mod != 1:
             if event.button() == Qt.LeftButton:
-                self.ActionClick()
-                self.TalkClick()
+                self.action_click()
+                self.talk_click()
                 self.grab_all = True
             # globalPos() 事件触发点相对于桌面的位置
             # pos() 程序相对于桌面左上角的位置，实际是窗口的左上角坐标
@@ -332,20 +332,20 @@ class PetIcarus(QWidget):
     def mouseReleaseEvent(self, event):
         if self.main_mod != 1:
             self.grab_all = False
-            self.ActionWait()
-            self.TalkWait()
+            self.action_wait()
+            self.talk_wait()
         self.left_mod = self.right_mod = 0  # 关闭飞行模式
         self.setCursor(QCursor(Qt.OpenHandCursor))  # 手形鼠标
 
     # 鼠标进入事件
     def enterEvent(self, event):
-        self.ActionHover()  # 开始进入状态
+        self.action_hover()  # 执行进入状态
         self.setCursor(QCursor(Qt.OpenHandCursor))  # 手形鼠标
 
     # 鼠标离开事件
     def leaveEvent(self, event):
         if not self.main_mod:
-            self.ActionWait()  # 回到待机状态
+            self.action_wait()  # 回到待机状态
 
     # 鼠标右键事件
     def contextMenuEvent(self, event):
