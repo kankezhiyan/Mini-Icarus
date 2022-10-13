@@ -233,6 +233,20 @@ class PetIcarus(QWidget):
             self.talk_timer.stop()  # 结束骚话
             self.talk_wait()  # 待机沉默
 
+    # 飞行音乐
+    def music_fly(self):
+        self.flying = QSound("resource/audio/sfx-fly-atmos.wav")
+
+
+    # 点击音乐
+    def music_click(self):
+        self.fly_star_music = QSound("resource/audio/sfx-fly-start.wav")
+        self.fly_star_words = QSoundEffect()
+        self.fly_star_words.setSource(QUrl.fromLocalFile("resource/audio/fly-mode-zh.wav"))
+        self.fly_star_words.setVolume(1.0)
+        self.fly_star_music.play()
+        self.fly_star_words.play()
+
     # 退出程序
     def quit(self):
         self.tray_menu.deleteLater()  # 回收托盘图标
@@ -299,6 +313,7 @@ class PetIcarus(QWidget):
             if event.button() == Qt.LeftButton:
                 self.action_click()
                 self.talk_click()
+                self.music_click()
                 self.grab_all = True
             # globalPos() 事件触发点相对于桌面的位置
             # pos() 程序相对于桌面左上角的位置，实际是窗口的左上角坐标
