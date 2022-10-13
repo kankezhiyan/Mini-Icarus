@@ -249,6 +249,10 @@ class PetIcarus(QWidget):
         self.fly_star_words.play()
         QTimer.singleShot(500, self.music_fly)
 
+    # 释放音乐
+    def music_land(self):
+        self.flying.stop()
+
     # 退出程序
     def quit(self):
         self.tray_menu.deleteLater()  # 回收托盘图标
