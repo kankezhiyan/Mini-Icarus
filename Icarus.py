@@ -236,16 +236,18 @@ class PetIcarus(QWidget):
     # 飞行音乐
     def music_fly(self):
         self.flying = QSound("resource/audio/sfx-fly-atmos.wav")
-
+        self.flying.setLoops(QSound.Infinite)
+        self.flying.play()
 
     # 点击音乐
     def music_click(self):
         self.fly_star_music = QSound("resource/audio/sfx-fly-start.wav")
         self.fly_star_words = QSoundEffect()
         self.fly_star_words.setSource(QUrl.fromLocalFile("resource/audio/fly-mode-zh.wav"))
-        self.fly_star_words.setVolume(1.0)
+        # self.fly_star_words.setVolume(1.0)
         self.fly_star_music.play()
         self.fly_star_words.play()
+        QTimer.singleShot(500, self.music_fly)
 
     # 退出程序
     def quit(self):
