@@ -33,7 +33,7 @@ class PetIcarus(QWidget):
 
     # 托盘化设置初始化
     def pall_init(self):
-        icons = os.path.join('resource/vision/pic/Icuras.png')  # 托盘图标
+        icons = os.path.join('resource/vision/pic/Icarus.png')  # 托盘图标
         self.check_icon = os.path.join('resource/vision/pic/rcd-check.png')  # 选中图标
 
         self.quit_pet = QAction('退出', self)  # 退出
