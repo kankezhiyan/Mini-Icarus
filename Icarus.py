@@ -44,7 +44,7 @@ class PetIcarus(QWidget):
         self.about_set = QAction('关于', self)  # 详细信息
 
         # 菜单响应
-        self.quit_pet.triggered.connect(self.quit)
+        self.quit_pet.triggered.connect(self.quit_if)
         self.show_set.triggered.connect(self.show_if)
         self.music_set.triggered.connect(self.music_if)
         self.text_set.triggered.connect(self.text_if)
@@ -259,6 +259,16 @@ class PetIcarus(QWidget):
         self.close()  # 关闭窗体
         sys.exit()  # 结束程序
 
+    # 出场动画
+    def quit_show(self):
+        self.quit()
+
+    # 退出确认
+    def quit_if(self):
+        sure = QMessageBox.question(self, '确认', '确认退出？', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if sure == QMessageBox.Yes:
+            self.quit_show()
+
     # 显示控制
     def show_if(self):
         if self.show_check:
@@ -357,6 +367,7 @@ class PetIcarus(QWidget):
             self.grab_all = False
             self.action_wait()
             self.talk_wait()
+            self.music_land()
         self.left_mod = self.right_mod = 0  # 关闭飞行模式
         self.setCursor(QCursor(Qt.OpenHandCursor))  # 手形鼠标
 
