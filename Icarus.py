@@ -3,6 +3,7 @@ import random
 import sys
 import time
 
+from PyQt5 import QtWidgets
 from PyQt5.Qt import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -265,7 +266,7 @@ class PetIcarus(QWidget):
 
     # 退出确认
     def quit_if(self):
-        sure = QMessageBox.question(self, '确认', '确认退出？', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        sure = QtWidgets.QMessageBox.question(self, '确认', '确认退出？', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if sure == QMessageBox.Yes:
             self.quit_show()
 
