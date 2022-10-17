@@ -120,19 +120,19 @@ class PetIcarus(QWidget):
         elif 3 <= now_hour < 5:
             self.sentences.setText('凌晨好，' + master + '准备享受充实的25小时吗？')
         elif 5 <= now_hour < 8:
-            self.sentences.setText('早晨好，' + master + '')
+            self.sentences.setText('早晨好，' + master + '早起的伊卡有工打。')
         elif 8 <= now_hour < 11:
-            self.sentences.setText('上午好，' + master + '')
+            self.sentences.setText('上午好，' + master + '大好时光，努力肝球，主脑看好你哦~')
         elif 11 <= now_hour < 13:
             self.sentences.setText('中午好，' + master + '午饭吃了吗？吃饱才有力气干活！')
         elif 13 <= now_hour < 17:
-            self.sentences.setText('下午好，' + master + '')
+            self.sentences.setText('下午好，' + master + '好好给主脑打工，不许打瞌睡')
         elif 17 <= now_hour < 19:
-            self.sentences.setText('傍晚好，' + master + '')
+            self.sentences.setText('傍晚好，' + master + '球都没肝完，你还有脸吃完饭？')
         elif 19 <= now_hour < 23:
-            self.sentences.setText('晚上好，' + master + '')
+            self.sentences.setText('晚上好，' + master + '肝不玩这一层球壳不许睡！')
         else:
-            self.sentences.setText('深夜好，' + master + '')
+            self.sentences.setText('深夜好，' + master + '别上头，肝爆了主脑不赔！')
 
     # 实体待机行为
     def action_wait(self):
@@ -260,9 +260,19 @@ class PetIcarus(QWidget):
         self.close()  # 关闭窗体
         sys.exit()  # 结束程序
 
-    # 出场动画
+    # 离场动画
     def quit_show(self):
-        self.quit()
+        self.main_timer.stop()  # 结束待机状态
+        self.action_timer.stop()  # 结束小动作状态
+
+        self.movie = QMovie("resource/vision/interact/welcome.gif")  # 开屏动画
+        self.movie.setScaledSize(QSize(200, 200))  # 动画尺寸
+        self.pet_area.setMovie(self.movie)  # 加载动画
+        self.movie.start()  # 播放动画
+
+        self.main_mod = 1
+
+        QTimer.singleShot(5000, self.quit)
 
     # 退出确认
     def quit_if(self):
