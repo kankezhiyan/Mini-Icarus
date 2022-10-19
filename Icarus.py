@@ -3,6 +3,8 @@ import random
 import sys
 import time
 
+import Pall_Init
+
 from PyQt5 import QtWidgets
 from PyQt5.Qt import *
 from PyQt5.QtCore import *
@@ -12,7 +14,7 @@ from PyQt5.QtWidgets import *
 
 class PetIcarus(QWidget):
     def __init__(self, parent=None):
-        super(PetIcarus, self).__init__(parent)
+        super(PetIcarus, self).__init__(parent, Qt.FramelessWindowHint)
         self.window_init()  # 初始化窗体
         self.pall_init()  # 初始化小托盘
         self.icarus_init()  # 初始化实体
