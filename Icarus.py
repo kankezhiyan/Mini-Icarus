@@ -37,20 +37,20 @@ class PetIcarus(QWidget):
         icons = os.path.join('resource/vision/pic/Icarus.png')  # 托盘图标
         self.check_icon = os.path.join('resource/vision/pic/rcd-check.png')  # 选中图标
 
-        self.quit_pet = QAction('退出', self)  # 退出
+        quit_pet = QAction('退出', self)  # 退出
         self.show_set = QAction(QIcon(self.check_icon), '显示', self)  # 显示控制
         self.music_set = QAction(QIcon(self.check_icon), '声音', self)  # 声音控制
         self.text_set = QAction(QIcon(self.check_icon), '发言', self)  # 文本控制
         self.top_set = QAction(QIcon(self.check_icon), '置顶', self)  # 置顶控制
-        self.about_set = QAction('关于', self)  # 详细信息
+        about_set = QAction('关于', self)  # 详细信息
 
         # 菜单响应
-        self.quit_pet.triggered.connect(self.quit_if)
+        quit_pet.triggered.connect(self.quit_if)
         self.show_set.triggered.connect(self.show_if)
         self.music_set.triggered.connect(self.music_if)
         self.text_set.triggered.connect(self.text_if)
         self.top_set.triggered.connect(self.top_if)
-        self.about_set.triggered.connect(self.about)
+        about_set.triggered.connect(self.about)
 
         # 状态判定值
         self.show_check = self.music_check = self.text_check = self.top_check = 1
@@ -59,12 +59,12 @@ class PetIcarus(QWidget):
         self.tray_menu = QMenu(self)
 
         # 添加菜单
-        self.tray_menu.addAction(self.quit_pet)
+        self.tray_menu.addAction(quit_pet)
         self.tray_menu.addAction(self.show_set)
         self.tray_menu.addAction(self.music_set)
         self.tray_menu.addAction(self.text_set)
         self.tray_menu.addAction(self.top_set)
-        self.tray_menu.addAction(self.about_set)
+        self.tray_menu.addAction(about_set)
 
         tray_icon = QSystemTrayIcon(self)  # 添加托盘图标
         tray_icon.setIcon(QIcon(icons))  # 托盘化图标
